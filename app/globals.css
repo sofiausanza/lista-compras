@@ -308,10 +308,16 @@ h3 {
   width: 100%;
   text-align: left;
   font-family: inherit;
+  transition: transform 0.2s ease, background 0.15s ease;
 }
 
 .item:active {
   background: rgba(0, 0, 0, 0.05);
+}
+
+.item.presionando {
+  background: var(--durazno);
+  transform: scale(0.97);
 }
 
 .check {

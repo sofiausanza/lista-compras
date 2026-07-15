@@ -8,10 +8,21 @@ function cantidadInicial(categoriaId) {
   return esPorKilo(categoriaId) ? 0.25 : 1;
 }
 
-export default function AddItemSheet({ usuario, onAgregar, onCerrar }) {
-  const [nombre, setNombre] = useState("");
-  const [categoriaId, setCategoriaId] = useState(CATEGORIAS[0].id);
-  const [cantidad, setCantidad] = useState(cantidadInicial(CATEGORIAS[0].id));
+export default function AddItemSheet({
+  usuario,
+  itemEditando,
+  onAgregar,
+  onEditar,
+  onCerrar,
+}) {
+  const esEdicion = Boolean(itemEditando);
+  const [nombre, setNombre] = useState(itemEditando?.nombre ?? "");
+  const [categoriaId, setCategoriaId] = useState(
+    itemEditando?.categoria ?? CATEGORIAS[0].id
+  );
+  const [cantidad, setCantidad] = useState(
+    itemEditando?.cantidad ?? cantidadInicial(CATEGORIAS[0].id)
+  );
 
   const porKilo = esPorKilo(categoriaId);
   const paso = porKilo ? 0.25 : 1;
@@ -34,13 +45,22 @@ export default function AddItemSheet({ usuario, onAgregar, onCerrar }) {
   function enviar(e) {
     e.preventDefault();
     if (!nombre.trim()) return;
-    onAgregar({
-      nombre: nombre.trim(),
-      categoria: categoriaId,
-      cantidad,
-      unidad,
-      pedidoPor: usuario,
-    });
+    if (esEdicion) {
+      onEditar(itemEditando.id, {
+        nombre: nombre.trim(),
+        categoria: categoriaId,
+        cantidad,
+        unidad,
+      });
+    } else {
+      onAgregar({
+        nombre: nombre.trim(),
+        categoria: categoriaId,
+        cantidad,
+        unidad,
+        pedidoPor: usuario,
+      });
+    }
     onCerrar();
   }
 
@@ -52,7 +72,7 @@ export default function AddItemSheet({ usuario, onAgregar, onCerrar }) {
         onSubmit={enviar}
       >
         <div className="sheet-cabecera">
-          <h2>Agregar producto</h2>
+          <h2>{esEdicion ? "Editar producto" : "Agregar producto"}</h2>
           <button
             type="button"
             className="sheet-cerrar"
@@ -64,7 +84,7 @@ export default function AddItemSheet({ usuario, onAgregar, onCerrar }) {
         </div>
 
         <label className="campo-etiqueta" htmlFor="nombre-producto">
-          ¿Qué falta?
+          {esEdicion ? "Nombre" : "¿Qué falta?"}
         </label>
         <input
           id="nombre-producto"
@@ -120,7 +140,7 @@ export default function AddItemSheet({ usuario, onAgregar, onCerrar }) {
         </div>
 
         <button type="submit" className="sheet-enviar" disabled={!nombre.trim()}>
-          Agregar a la lista
+          {esEdicion ? "Guardar cambios" : "Agregar a la lista"}
         </button>
       </form>
     </div>
