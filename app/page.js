@@ -12,9 +12,15 @@ import AddItemSheet from "@/components/AddItemSheet";
 export default function Home() {
   const { usuario, cargando: cargandoUsuario, elegirUsuario, olvidarUsuario } =
     useCurrentUser();
-  const { items, agregarItem, alternarComprado, vaciarComprados } =
+  const { items, agregarItem, alternarComprado, vaciarComprados, editarItem } =
     useShoppingList();
   const [sheetAbierto, setSheetAbierto] = useState(false);
+  const [itemEditando, setItemEditando] = useState(null);
+
+  function cerrarSheet() {
+    setSheetAbierto(false);
+    setItemEditando(null);
+  }
 
   if (cargandoUsuario) return null;
 
@@ -54,6 +60,7 @@ export default function Home() {
             categoria={categoria}
             items={items.filter((it) => it.categoria === categoria.id)}
             onAlternar={alternarComprado}
+            onEditar={setItemEditando}
           />
         ))}
       </div>
@@ -67,11 +74,13 @@ export default function Home() {
         +
       </button>
 
-      {sheetAbierto && (
+      {(sheetAbierto || itemEditando) && (
         <AddItemSheet
           usuario={usuario}
+          itemEditando={itemEditando}
           onAgregar={agregarItem}
-          onCerrar={() => setSheetAbierto(false)}
+          onEditar={editarItem}
+          onCerrar={cerrarSheet}
         />
       )}
     </div>

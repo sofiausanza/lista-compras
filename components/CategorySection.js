@@ -2,7 +2,7 @@
 
 import ItemRow from "./ItemRow";
 
-export default function CategorySection({ categoria, items, onAlternar }) {
+export default function CategorySection({ categoria, items, onAlternar, onEditar }) {
   if (items.length === 0) return null;
 
   return (
@@ -18,6 +18,7 @@ export default function CategorySection({ categoria, items, onAlternar }) {
             item={item}
             categoria={categoria}
             onAlternar={onAlternar}
+            onEditar={onEditar}
           />
         ))}
       </div>
