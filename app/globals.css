@@ -21,8 +21,12 @@
   --carniceria-bg: #f7e1da;
   --almacen: #8a5a34;
   --almacen-bg: #f1e4d6;
+  --dietetica: #4f9e8c;
+  --dietetica-bg: #dceee9;
   --limpieza: #3e8fb0;
   --limpieza-bg: #ddeef3;
+  --otros: #7a5c9e;
+  --otros-bg: #ede7f3;
 
   --font-display-family: var(--font-display), "Baloo 2", sans-serif;
   --font-body-family: var(--font-body), -apple-system, "Segoe UI", system-ui,
@@ -51,8 +55,12 @@
     --carniceria-bg: #3a241e;
     --almacen: #b78655;
     --almacen-bg: #33281e;
+    --dietetica: #5fbfa8;
+    --dietetica-bg: #1e332e;
     --limpieza: #6fb6d3;
     --limpieza-bg: #1e2e33;
+    --otros: #9b7fc2;
+    --otros-bg: #2e2638;
   }
 }
 
