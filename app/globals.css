@@ -442,6 +442,7 @@ h3 {
   color: var(--tinta);
   position: relative;
   display: inline-block;
+  align-self: flex-start;
 }
 
 .item-nombre::after {
