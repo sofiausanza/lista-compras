@@ -276,7 +276,6 @@ h3 {
 
 .categoria {
   border-radius: 20px;
-  overflow: hidden;
   box-shadow: var(--sombra-chica);
 }
 
@@ -289,10 +288,12 @@ h3 {
   font-weight: 700;
   font-size: 17px;
   color: #fff;
+  border-radius: 20px 20px 0 0;
 }
 
 .categoria-cuerpo {
   padding: 4px 8px 10px;
+  border-radius: 0 0 20px 20px;
 }
 
 .item {
