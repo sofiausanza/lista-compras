@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCurrentUser } from "@/lib/useCurrentUser";
 import { useShoppingList } from "@/lib/useShoppingList";
 import { CATEGORIAS } from "@/lib/categories";
@@ -9,6 +9,9 @@ import TopBar from "@/components/TopBar";
 import CategorySection from "@/components/CategorySection";
 import AddItemSheet from "@/components/AddItemSheet";
 import NotificacionesBoton from "@/components/NotificacionesBoton";
+import Celebracion from "@/components/Celebracion";
+
+const DURACION_CELEBRACION = 2200;
 
 export default function Home() {
   const { usuario, cargando: cargandoUsuario, elegirUsuario, olvidarUsuario } =
@@ -17,11 +20,38 @@ export default function Home() {
     useShoppingList();
   const [sheetAbierto, setSheetAbierto] = useState(false);
   const [itemEditando, setItemEditando] = useState(null);
+  const [celebrando, setCelebrando] = useState(false);
+  const marcandoUltimoRef = useRef(false);
 
   function cerrarSheet() {
     setSheetAbierto(false);
     setItemEditando(null);
   }
+
+  function manejarAlternar(id) {
+    const item = items.find((it) => it.id === id);
+    if (item && !item.comprado) {
+      const quedanOtrosPendientes = items.some(
+        (it) => it.id !== id && !it.comprado
+      );
+      if (!quedanOtrosPendientes) marcandoUltimoRef.current = true;
+    }
+    alternarComprado(id, usuario);
+  }
+
+  useEffect(() => {
+    if (items.length === 0) return;
+    const todoComprado = items.every((it) => it.comprado);
+    if (todoComprado && marcandoUltimoRef.current) {
+      marcandoUltimoRef.current = false;
+      setCelebrando(true);
+      const timer = setTimeout(() => setCelebrando(false), DURACION_CELEBRACION);
+      return () => clearTimeout(timer);
+    }
+    if (!todoComprado) {
+      marcandoUltimoRef.current = false;
+    }
+  }, [items]);
 
   if (cargandoUsuario) return null;
 
@@ -61,7 +91,7 @@ export default function Home() {
             key={categoria.id}
             categoria={categoria}
             items={items.filter((it) => it.categoria === categoria.id)}
-            onAlternar={(id) => alternarComprado(id, usuario)}
+            onAlternar={manejarAlternar}
             onEditar={setItemEditando}
           />
         ))}
@@ -85,6 +115,8 @@ export default function Home() {
           onCerrar={cerrarSheet}
         />
       )}
+
+      <Celebracion visible={celebrando} />
     </div>
   );
 }

@@ -1,14 +1,5 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-
-let fontCache;
-
-export async function fuenteBaloo() {
-  if (!fontCache) {
-    fontCache = readFile(path.join(process.cwd(), "app/assets/baloo-800.ttf"));
-  }
-  return fontCache;
-}
+const CARRITO_PATH =
+  "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L20.88 6H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z";
 
 export function marcaJSX(size) {
   return (
@@ -23,16 +14,14 @@ export function marcaJSX(size) {
         borderRadius: size * 0.22,
       }}
     >
-      <span
-        style={{
-          fontFamily: "Baloo 2",
-          fontSize: size * 0.58,
-          color: "#FBF3E7",
-          transform: `translateY(${size * 0.02}px)`,
-        }}
+      <svg
+        width={size * 0.6}
+        height={size * 0.6}
+        viewBox="0 0 24 24"
+        fill="#FBF3E7"
       >
-        L
-      </span>
+        <path d={CARRITO_PATH} />
+      </svg>
     </div>
   );
 }

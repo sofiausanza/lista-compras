@@ -659,3 +659,69 @@ h3 {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ---------- Celebración: "compraste todo" ---------- */
+
+.celebracion-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 35, 28, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 60;
+}
+
+.celebracion-fondo.activa {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.celebracion-tarjeta {
+  background: var(--papel-alto);
+  border-radius: 26px;
+  padding: 36px 30px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  transform: scale(0.6);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+  max-width: 280px;
+}
+
+.celebracion-fondo.activa .celebracion-tarjeta {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.celebracion-emoji {
+  font-size: 58px;
+  display: block;
+  margin-bottom: 12px;
+  animation: celebracion-bamboleo 1.4s ease-in-out infinite;
+}
+
+@keyframes celebracion-bamboleo {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+.celebracion-titulo {
+  font-family: var(--font-display-family);
+  font-weight: 800;
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.celebracion-sub {
+  font-size: 14.5px;
+  opacity: 0.65;
+}
