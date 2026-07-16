@@ -8,6 +8,7 @@ import UserPicker from "@/components/UserPicker";
 import TopBar from "@/components/TopBar";
 import CategorySection from "@/components/CategorySection";
 import AddItemSheet from "@/components/AddItemSheet";
+import NotificacionesBoton from "@/components/NotificacionesBoton";
 
 export default function Home() {
   const { usuario, cargando: cargandoUsuario, elegirUsuario, olvidarUsuario } =
@@ -35,6 +36,7 @@ export default function Home() {
       <TopBar usuario={usuario} onCambiarUsuario={olvidarUsuario} />
 
       <div className="toolbar">
+        <NotificacionesBoton usuario={usuario} />
         <button
           type="button"
           className="vaciar-boton"
@@ -59,7 +61,7 @@ export default function Home() {
             key={categoria.id}
             categoria={categoria}
             items={items.filter((it) => it.categoria === categoria.id)}
-            onAlternar={alternarComprado}
+            onAlternar={(id) => alternarComprado(id, usuario)}
             onEditar={setItemEditando}
           />
         ))}

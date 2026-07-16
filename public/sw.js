@@ -28,3 +28,35 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request))
   );
 });
+
+self.addEventListener("push", (event) => {
+  let datos = { title: "Lista de compras", body: "Hay novedades en la lista." };
+  if (event.data) {
+    try {
+      datos = event.data.json();
+    } catch {
+      datos.body = event.data.text();
+    }
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(datos.title, {
+      body: datos.body,
+      icon: "/icon-192",
+      badge: "/icon-192",
+      tag: "lista-compras",
+    })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientes) => {
+      for (const cliente of clientes) {
+        if ("focus" in cliente) return cliente.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow("/");
+    })
+  );
+});
