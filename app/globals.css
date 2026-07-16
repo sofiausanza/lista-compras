@@ -339,16 +339,40 @@ h3 {
   background: var(--jade);
   border-color: var(--jade);
   opacity: 1;
+  animation: check-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .check svg {
   width: 18px;
   height: 18px;
-  display: none;
+  overflow: visible;
 }
 
-.item.comprado .check svg {
-  display: block;
+.check svg path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+
+.item.comprado .check svg path {
+  animation: check-dibujar 0.25s 0.05s ease forwards;
+}
+
+@keyframes check-pop {
+  0% {
+    transform: scale(0.7);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes check-dibujar {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .item-emoji {
@@ -369,11 +393,27 @@ h3 {
   font-weight: 600;
   font-size: 17px;
   color: var(--tinta);
+  position: relative;
+  display: inline-block;
+}
+
+.item-nombre::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  width: 0;
+  background: currentColor;
+  transition: width 0.25s 0.1s ease;
 }
 
 .item.comprado .item-nombre {
-  text-decoration: line-through;
   opacity: 0.5;
+}
+
+.item.comprado .item-nombre::after {
+  width: 100%;
 }
 
 .item-meta {
